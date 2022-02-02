@@ -2,6 +2,7 @@
   <h1>
     Welcome to myFlix!
   </h1>
+
   <button
     Mat-raised-button
     (click)="openUserRegistrationDialog()"
@@ -10,10 +11,19 @@
   >
     Sign Up
   </button>
+
   <button
     mat-raised-button
     color="primary"
   >
     Login
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="openMoviesDialog()"
+  >
+    All Movies
   </button>
 </div>
