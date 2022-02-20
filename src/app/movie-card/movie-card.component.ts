@@ -1,25 +1,140 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MatDialog } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
-
+import { DescriptionCardComponent } from '../description-card/description-card.component';
+import { DirectorCardComponent } from '../director-card/director-card.component';
+import { GenreCardComponent } from '../genre-card/genre-card.component';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
 })
-export class MovieCardComponent {
+export class MovieCardComponent implements OnInit {
   movies: any[] = [];
-  constructor(public fetchApiData: FetchApiDataService) { }
+  username: any = localStorage.getItem('user');
+  user: any = JSON.parse(this.username);
+  currentUser: any = null;
+  currentFavs: any = null;
+  isInFavs: boolean = false;
 
-ngOnInit(): void {
-  this.getMovies();
-}
+  constructor(
+    public dialog: MatDialog,
+    public fetchApiData: FetchApiDataService,
+    public router: Router,
+    public snackBar: MatSnackBar,
+  ) { }
 
-getMovies(): void {
-  this.fetchApiData.getAllMovies().subscribe((resp: any) => {
+  ngOnInit(): void {
+    this.getMovies();
+    this.getCurrentUser(this.user.Username);
+  }
+
+  getCurrentUser(username: string): void {
+    this.fetchApiData.getUser(username).subscribe((resp: any) => {
+      this.currentUser = resp;
+      this.currentFavs = resp.FavoriteMovies;
+      return (this.currentUser, this.currentFavs);
+    });
+  }
+
+  getMovies(): void {
+    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
-      console.log(this.movies);
       return this.movies;
     });
+  }
+
+  openDescriptionDialog(
+    title: string,
+    description: string,
+  ): void {
+    this.dialog.open(DescriptionCardComponent, {
+      data: {
+        title,
+        description
+      },
+      width: '500px'
+    });
+  }
+
+  openDirectorDialog(
+    name: string,
+    bio: string,
+    birth: Date,
+    death: Date
+  ): void {
+    this.dialog.open(DirectorCardComponent, {
+      data: {
+        name,
+        bio,
+        birth,
+        death
+      },
+      width: '500px'
+    });
+  }
+
+  openGenreDialog(
+    name: string,
+    description: string
+  ): void {
+    this.dialog.open(GenreCardComponent, {
+      data: {
+        name,
+        description,
+      },
+      width: '500px'
+    });
+  }
+
+  openProfile(): void {
+    this.router.navigate(['profile']);
+  }
+
+  logOut(): void {
+    this.router.navigate(['welcome']);
+    localStorage.clear();
+  }
+
+  /**
+   * Add to favs if the title is not in favs,
+   * removes from favs, if the title is in favs
+   * (called by clicking the heart icon)
+   * @param movieId
+   * @returns isInFavs
+   */
+  toggleFavs(movieId: string): void {
+    if (this.favCheck(movieId)) {
+      this.removeFromFavs(movieId);
+      this.isInFavs = false;
+    } else {
+      this.addToFavs(movieId)
+      this.isInFavs = true;
+    }
+  }
+
+  addToFavs(movieId: string): void {
+      this.fetchApiData
+      .addToFav(this.user.Username, movieId)
+      .subscribe((resp: any) => {
+        this.getCurrentUser(this.user.Username);
+        this.ngOnInit();
+        this.snackBar.open('Added to favs', 'OK', { duration: 2000 });
+      });
+  }
+
+  removeFromFavs(movieId: string): void {
+    this.fetchApiData.removeFromFav(this.user.Username, movieId).subscribe((resp: any) => {
+      this.snackBar.open('Removed from favs', 'OK', { duration: 2000 });
+      this.getCurrentUser(this.user.Username);
+      this.ngOnInit();
+      2000
+    });
+  }
+
+  favCheck(movieId: string): boolean {
+    return this.currentFavs.includes(movieId);
   }
 }
