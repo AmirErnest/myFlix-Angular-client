@@ -285,7 +285,8 @@ export class FetchApiDataService {
    */
   public addToFav(username: string, movieId: string): Observable<any> {
     const response = this.http.post(
-      apiUrl + 'users/' + username + 'favorites/' + movieId,
+      apiUrl + 'users/' + username + '/' + 'movies/' + movieId,
+      {},
       headers
     );
     return response.pipe(catchError(this.handleError));
@@ -315,7 +316,7 @@ export class FetchApiDataService {
    */
   public removeFromFav(username: string, movieId: string): Observable<any> {
     const response = this.http.delete(
-      apiUrl + 'users/' + username + 'favorites/' + movieId,
+      apiUrl + 'users/' + username + '/' + 'movies/' + movieId,
       headers
     );
     return response.pipe(catchError(this.handleError));

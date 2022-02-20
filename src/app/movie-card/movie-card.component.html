@@ -45,11 +45,23 @@
           Description
         </button>
 
-        <button mat-icon-button (click)="addToFavs(movie)">
-          <mat-icon >
-             favorite_border 
+        
+          <mat-icon 
+            class=" fav-icon"
+            *ngIf="favCheck(movie._id)"
+            (click)="toggleFavs(movie._id)"
+            color="primary">
+             favorite
           </mat-icon>
-        </button>
+
+          <mat-icon 
+            class=" fav-icon"
+            *ngIf="!favCheck(movie._id)"
+            (click)="toggleFavs(movie._id)"
+            color="primary">
+             favorite_border
+          </mat-icon>
+        
 
       </mat-card-actions>
     </mat-card>
