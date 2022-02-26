@@ -260,23 +260,6 @@ export class FetchApiDataService {
   }
 
   /**
-   * Calls the /:users/username/favorites endpoint
-   * @function getWatchlist
-   * @param username the username of the user to retrieve the list of fvaorites of
-   * @returns an Observable containing a response
-   */
-  public getWatchlist(username: string): Observable<any> {
-    const response = this.http.get(
-      apiUrl + 'users/' + username + '/watchlist',
-      headers
-    );
-    return response.pipe(
-      map(this.extractResponseData),
-      catchError(this.handleError)
-    );
-  }
-
-  /**
    * Calls the PUT /users/:username/favorites/:movieId endpoint
    * @function addToFav
    * @param username the username of the user we want to update the favorites for
