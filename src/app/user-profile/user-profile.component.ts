@@ -5,6 +5,7 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { RemoveUserComponent } from '../remove-user/remove-user.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -32,9 +33,9 @@ export class UserProfileComponent implements OnInit {
   getCurrentUser(currentUser: string): void {
     this.fetchApiData.getUser(currentUser).subscribe((resp: any) => {
       this.currentUser = resp;
-      this.currentFavs = this.currentUser.Favorites;
+      this.currentFavs = resp.FavoriteMovies;
       this.areFavsEmpty();
-      return this.currentUser;
+      return (this.currentUser, this.currentFavs);
     });
   }
 
