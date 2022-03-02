@@ -16,7 +16,8 @@ export class UserProfileComponent implements OnInit {
   UserFromStorage: any = localStorage.getItem('user');
   currentUser: any = (JSON.parse(this.UserFromStorage));
   currentUsername: any = this.currentUser.Username;
-  currentFavs: any = this.currentUser.Favorites;
+  currentFavs: any = this.currentUser.FavoriteMovies;
+  favMovies: any = [];
   favsEmpty: boolean = true;
 
   constructor(
@@ -34,9 +35,23 @@ export class UserProfileComponent implements OnInit {
     this.fetchApiData.getUser(currentUser).subscribe((resp: any) => {
       this.currentUser = resp;
       this.currentFavs = resp.FavoriteMovies;
+      this.getFavMovies();
       this.areFavsEmpty();
       return (this.currentUser, this.currentFavs);
     });
+  }
+
+  getFavMovies(): void {
+    let movies: any[] = [];
+    this.fetchApiData.getAllMovies().subscribe((res: any) => {
+      movies = res;
+      movies.forEach((movie: any) => {
+        if (this.currentUser.FavoriteMovies.includes(movie._id)) {
+          this.favMovies.push(movie);
+        }
+      });
+    });
+    return this.favMovies;
   }
 
   backToMovies(): void {
