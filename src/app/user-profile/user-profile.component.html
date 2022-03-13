@@ -19,6 +19,7 @@
     </mat-card>
   </div>
 
+  <!-- String interpolation is used to output data from the class to the template -->
   <div class="user-data">
     <mat-card>
       <mat-card-title>
@@ -31,9 +32,11 @@
         <p>Email: {{this.currentUser.Email}}</p>
       </mat-card-content>
       <mat-card-content>
+        <!-- Date pipe used to transform the date returned from the database to a more user friendly display -->
         <p>Birthdate: {{this.currentUser.Birthday | date:'longDate'}}</p>
       </mat-card-content>
       <mat-card-actions>
+        <!-- Event binding used to invoke the functions to open the edit profile dialog and delete the user respectively -->
         <button mat-button (click)="openRemoveUserDialog()" color="warn">Remove account</button>
         <button mat-raised-button color="primary"
           (click)="openUserEditDialog(currentUser.Username, currentUser.Password, currentUser.Email, currentUser.Birthday)">Edit

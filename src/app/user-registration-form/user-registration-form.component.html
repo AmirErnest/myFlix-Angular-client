@@ -5,6 +5,8 @@
   <mat-card-content>
     <form>
       <mat-form-field>
+        <!-- ngModel directive used to bind the form input values entered by the user to the userData object in 
+        the registration component. -->
         <input
           matInput
           [(ngModel)]="userData.Username"
@@ -45,6 +47,7 @@
       </mat-form-field>
     </form>
   </mat-card-content>
+  <!-- Event binding used to invoke the registerUser function in the registration component when the button is clicked -->
   <mat-card-actions>
       <button
         mat-raised-button

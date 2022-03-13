@@ -1,4 +1,10 @@
+/** 
+ * The GenreComponent is used to render a mat dialog containing information about the genre
+ * of the movie selected.
+ * @module GenreCardComponent
+ */
 import { Component, OnInit, Inject } from '@angular/core';
+// MAT_DIALOG_DATA is an injection token that allows access to data passed in to a dialog.
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
 @Component({
@@ -7,8 +13,11 @@ import { FetchApiDataService } from '../fetch-api-data.service';
   styleUrls: ['./genre-card.component.scss']
 })
 export class GenreCardComponent implements OnInit {
-
-  //genre of the current movie
+  /**
+   * The data that was passed to the Genre dialog in the MovieCardComponent is injected in to the 
+   * constructor using the MAT_DIALOG_DATA injection token. The data becomes a property on the class
+   * and is hence available to be output in the template.
+   */
   genre: any = this.data.name;
 
   constructor(

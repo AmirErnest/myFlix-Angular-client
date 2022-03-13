@@ -1,3 +1,8 @@
+/** 
+ * The UserProfileComponent is used to render a mat card displaying the user's profile details. This includes
+ * two action buttons to edit their profile and deregister from the application, respectively.
+ * @module ProfileComponent
+ */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,9 +32,19 @@ export class UserProfileComponent implements OnInit {
     public snackBar: MatSnackBar,
   ) { }
 
+  /**
+   * Calls the getCurrentUser method as soon as the component loads so that the data can be used to populate
+   * the template.
+   */  
+
   ngOnInit(): void {
     this.getCurrentUser(this.currentUsername);
   }
+
+  /** 
+   * Invokes the getUser method on the fetchApiData service and populates the user object with
+   * the response. 
+   */ 
 
   getCurrentUser(currentUser: string): void {
     this.fetchApiData.getUser(currentUser).subscribe((resp: any) => {
@@ -63,6 +78,9 @@ export class UserProfileComponent implements OnInit {
     localStorage.clear();
   }
 
+    /**
+   * Opens a dialog containing the user-edit component that renders the edit profile form.
+   */ 
   openUserEditDialog(
     username: string,
     password: string,

@@ -9,10 +9,12 @@
   <h1>Welcome, {{ this.user.Username }}</h1>
 
   <div class="favorites-list">
+    <!-- The ngFor directive is used to loop through the movies array in the component. A mat-card is then rendered for each movie -->
     <mat-card *ngFor="let movie of movies; let i = index">
       <img src="{{ movie.ImagePath }}" alt="{{ movie.Title }}" />
       <mat-card-title>{{ movie.Title }}</mat-card-title>
       <mat-card-actions>
+        <!-- Event binding used to invoke the functions to open the dialogs when the buttons are clicked. The data needed inside the dialogs is passed in as arguments to the functions -->
         <button
           class="director"
           mat-button
@@ -45,7 +47,7 @@
           Description
         </button>
 
-        
+        <!-- The 'color' property is bound to an expression which is a function that returns either the color value 'warn' or 'accent' depending on whether the movie is included in the users favourites or not -->
           <mat-icon 
             class=" fav-icon"
             *ngIf="favCheck(movie._id)"

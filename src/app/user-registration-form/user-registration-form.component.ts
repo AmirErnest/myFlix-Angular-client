@@ -1,3 +1,9 @@
+/** 
+ * The UserRegistrationFormComponent is used to render a mat dialog containing a form where the
+ * user can complete and submit a profile to register for myFlix. 
+ * @module UserRegistrationFormComponent
+ */
+
 import { Component, OnInit, Input } from '@angular/core';
 
 //to close the dialog on success
@@ -16,18 +22,31 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class UserRegistrationFormComponent implements OnInit {
 
-  //to bind the form values to the user
+  /** 
+   * userData values are populated by form inputs in the user-registration-form template that are 
+   * bound using the ngModel directive.
+   */ 
   @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
+
+    /** 
+   * Passing classes as parameters to the constructor sets them as properties on the component class 
+   * that can then be accessed as needed.
+   */ 
 
   constructor(
     public fetchApiData: FetchApiDataService,
+    // Creates a reference to the dialog that contains the UserRegistrationForm component
     public dialogRef: MatDialogRef<UserRegistrationFormComponent>,
     public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 }
 
-// This is the function responsible for sending the form inputs to the backend
+  /**
+   * Invokes the userRegistration method on the fetchApiData service, with the userData from the form,
+   * in order to register the user. 
+   */
+
 registerUser(): void {
     this.fetchApiData.userRegistration(this.userData).subscribe((result) => {
   // Logic for a successful user registration goes here! (To be implemented)
